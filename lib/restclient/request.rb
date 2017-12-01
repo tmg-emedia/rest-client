@@ -94,6 +94,8 @@ module RestClient
 
       @proxy = args.fetch(:proxy) if args.include?(:proxy)
 
+      @net_debug_logger = args.fetch(:net_debug_logger) if args.include?(:net_debug_logger)
+
       @ssl_opts = {}
 
       if args.include?(:verify_ssl)
@@ -712,6 +714,9 @@ module RestClient
 
       log_request
 
+      if @net_debug_logger
+        net.set_debug_output @net_debug_logger
+      end
       net.start do |http|
         established_connection = true
 
